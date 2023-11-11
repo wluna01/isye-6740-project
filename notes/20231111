@@ -1,0 +1,8 @@
+hyphothesis that only friends and the simpsons have enough data to calculate meaningful heuristics,
+but will proceed with full dataset. 
+
+Bart and Lisa fall on the expected ends of the Simpson's D spectrum, but it it has a such a small range of values. Yule's K looks more meaningful but why do Lisa and Bart then rank so similarly on it?
+
+Need to peer under the covers of how the heuristics are working. Might be calculating wrong, or tokenization might not work perfectly without more preprocessing. Moving on for now.
+
+
