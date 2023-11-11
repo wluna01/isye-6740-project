@@ -1,5 +1,7 @@
 import pandas as pd
 import glob
+import re
+
 
 def df_to_dialogue(df, speaker_col, dialoge_col, media_name):
     df['speaker'] = df[speaker_col]
@@ -76,9 +78,13 @@ def prepare_data():
             df_to_dialogue(downtownabbey, 'speaker', 'dialogue', 'Downtown Abbey')
         )
     
-    cleaned_df = df.dropna()
+    #apply title case to the speaker column
+    df['speaker'] = df['speaker'].str.title()
+
     #trim quotation marks and spaces from the dialogue
-    #cleaned_df['dialogue'] = cleaned_df['dialogue'].str.strip('\"')
+    #df['dialogue'] = df['dialogue'].str.strip().str.strip('\"')
+    #df['dialogue'] = df['dialogue'].apply(lambda text: re.sub(r'["“”]', '', str(text)))
+    cleaned_df = df.dropna()
     
     return cleaned_df
 
