@@ -6,11 +6,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 #load the data
 dialogue = pd.read_csv('../data/dialogue.csv')
 
-#return to this 
-#get all unique media
-#media = dialogue['media'].unique().tolist()
-#print(media)
-
 #select only dialogue from The Simpsons
 simpsons = dialogue[dialogue['media'] == 'The Simpsons']
 simpsons_family = ['Homer Simpson', 'Marge Simpson', 'Bart Simpson', 'Lisa Simpson']
@@ -25,13 +20,24 @@ for family_member in simpsons_family:
     family_member_dialogue = ' '.join(family_member_dialogue)
     dialogue.append(family_member_dialogue)
 
-#print(dialogue[1])
+#include bigrams and trigrams, remove words spoken by all family members
+vectorizer = TfidfVectorizer(ngram_range=(1, 3), max_df=0.99)
 
-# Create a TfidfVectorizer object
-vectorizer = TfidfVectorizer(ngram_range=(1, 3))
-
-# Fit and transform the documents
+#fit and transform the documents
 tfidf_matrix = vectorizer.fit_transform(dialogue)
+#get feature names (words or n-grams)
+feature_names = vectorizer.get_feature_names_out()
+
+#analyze TF-IDF scores per document
+for doc_index, doc in enumerate(tfidf_matrix):
+    print(f"Document {doc_index}:")
+    
+    # Convert the TF-IDF matrix for this document into a readable format
+    df = pd.DataFrame(doc.T.todense(), index=feature_names, columns=["TF-IDF"])
+    df = df.sort_values('TF-IDF', ascending=False)
+    
+    # Display the top terms with their scores
+    print(df.head(10))  # Display top 10 terms for this document
 
 # Show the TF-IDF matrix
 print(tfidf_matrix.toarray().shape)
