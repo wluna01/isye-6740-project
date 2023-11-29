@@ -2,23 +2,86 @@
 \usepackage{hyperref}
 \usepackage{float}
 \usepackage[margin=1in]{geometry}
+\usepackage[justification=centering]{caption}
+\usepackage{amsmath,amsfonts,amsthm,fullpage,amssymb,algorithm,color,mathtools,float,hyperref,subcaption,url,graphicx, algorithmic}
+\newcommand{\largeimagewidth}{350}
+\newcommand{\mediumimagewidth}{250}
 
 \begin{document}
 \begin{titlepage}
-	\clearpage\thispagestyle{empty}
-	\centering
-	\vspace{1cm}
-		
-	\rule{\linewidth}{1mm} \\[0.5cm]
-	{ \Large \bfseries ISYE 6740 - Fall 2023\\[0.2cm]
-		Final Project}\\[0.5cm]
-	\rule{\linewidth}{1mm} \\[1cm]
-	
-		\begin{tabular}{l p{5cm}}
-		\textbf{Team Member Names:} William Luna (Solo) gtID: 903947280 &   \\[10pt]
-		\textbf{Project Title:} Speaker Attribution in Written Dialogue &  \\[10pt]
-		\end{tabular} 
+\clearpage\thispagestyle{empty}
+\centering
+\vspace{1cm}
 
+\rule{\linewidth}{1mm} \\[0.5cm]
+{ \Large \bfseries ISYE 6740 - Fall 2023\\[0.2cm]
+Final Project}\\[0.5cm]
+\rule{\linewidth}{1mm} \\[1cm]
+
+\begin{tabular}{l p{5cm}}
+\textbf{Team Member Names:} William Luna (Solo) gtID: 903947280 &   \\[10pt]
+\textbf{Project Title:} Speaker Attribution in Written Dialogue &  \\[10pt]
+\end{tabular} 
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\largeimagewidth]{images/heuristics.png}
+\caption{Speakers within a piece of media tend to cluster together.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\mediumimagewidth]{images/Downtown Abbey_heuristics.png}
+\caption{Note that the three servants are clustered in the center while each member of the nobility occupies a distinct place in the plot.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\mediumimagewidth]{images/The Lord of the Rings_heuristics.png}
+\caption{This scatter plot implies that Frodo and Sam have similar speech patterns, as do Pippin and Mary, distinct from Gandalf and Aragorn.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\mediumimagewidth]{images/The Simpsons_heuristics.png}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\mediumimagewidth]{images/Pride and Prejudice_heuristics.png}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\mediumimagewidth]{images/Friends_heuristics.png}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\mediumimagewidth]{images/Rick and Morty_heuristics.png}
+\end{figure}
+
+
+    \begin{figure}[H]
+        \centering
+        \caption{Decision Stumps of AdaBoost (Misclassifications of each stump highlighted)}
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{images/Friends_heuristics.png}
+            \caption{T = 1}
+            \label{fig:subfig1}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{images/Downtown Abbey_heuristics.png}
+            \caption{T = 2}
+            \label{fig:subfig2}
+        \end{subfigure}
+        \label{fig:main}
+    \end{figure} 
         { \Large \bfseries Project Proposal}
 
         \begin{itemize}
