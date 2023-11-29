@@ -42,4 +42,8 @@ with warnings.catch_warnings():
         #explicitly remove the legend
         plt.legend().remove()
         plt.tight_layout()
+        #add the media as the title 
+        plt.title(media)
+        #add som extra space to the top of the plot to ensure the title is not cut off
+        plt.subplots_adjust(top=0.9)
         plt.savefig(f'../images/{media}_heuristics.png')
