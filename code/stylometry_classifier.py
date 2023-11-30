@@ -10,7 +10,7 @@ np.random.seed(6740)
 
 df = pd.read_csv('../data/dialogue.csv')
 df = df.dropna()
-df = df.sample(10000)
+#df = df.sample(10000)
 
 X = df[['avg_words_per_sentence', 'avg_chars_per_word']].values
 y = df['media'].values
