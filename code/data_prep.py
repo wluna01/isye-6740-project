@@ -2,7 +2,6 @@ import pandas as pd
 import glob
 import re
 
-
 def df_to_dialogue(df, speaker_col, dialoge_col, media_name):
     df['speaker'] = df[speaker_col]
     df['dialogue'] = df[dialoge_col]
@@ -89,6 +88,10 @@ def prepare_data():
     return cleaned_df
 
 df = prepare_data()
+#remove all rows where the dialogue column does not contain a string
+df = df[df['dialogue'].apply(lambda text: isinstance(text, str))]
+df = df.dropna()
+
 print(df.groupby('media')['speaker'].value_counts().groupby(level=0).head(5))
 #save the dataframe to a csv file
 df.to_csv('../data/dialogue.csv', index=False)
