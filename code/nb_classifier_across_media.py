@@ -20,11 +20,13 @@ random_state = 6740
 #import the real dialogue data
 dialogue = pd.read_csv('../data/dialogue.csv')
 dialogue = dialogue.dropna(subset=['dialogue'])
+#filter on column is_top_speaker is true
+dialogue = dialogue[dialogue['is_top_six'] == True]
 
 #convert the dialogue column to a list
-#dialogue_list = dialogue['dialogue'].tolist()
+dialogue_list = dialogue['dialogue'].tolist()
 #convert the media column to a list
-#media_list = dialogue['media'].tolist()
+media_list = dialogue['media'].tolist()
 
 #take 1000 samples from the dialogue_list and media_list for each media
 #dialogue_list = dialogue.groupby('media').apply(lambda x: x.sample(n=1000)).reset_index(drop=True)['dialogue'].tolist()
@@ -40,16 +42,16 @@ dialogue = dialogue.dropna(subset=['dialogue'])
 #for each media
 #sample 10000 rows
 #append to a new list
-dialogue_list = []
-media_list = []
-sample_size = 1000
+#dialogue_list = []
+#media_list = []
+#sample_size = 1000
 
-for media in dialogue['media'].unique():
-    media_df = dialogue[dialogue['media'] == media]
-    mask = np.random.randint(0, len(media_df), sample_size)
-    media_df = media_df.iloc[mask]
-    dialogue_list.append(media_df['dialogue'].tolist())
-    media_list.append(media_df['media'].tolist())
+#for media in dialogue['media'].unique():
+#    media_df = dialogue[dialogue['media'] == media]
+#    mask = np.random.randint(0, len(media_df), sample_size)
+#    media_df = media_df.iloc[mask]
+#    dialogue_list.append(media_df['dialogue'].tolist())
+#    media_list.append(media_df['media'].tolist())
 
 # Split the dataset into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(dialogue_list, media_list, test_size=0.2, random_state=random_state)
