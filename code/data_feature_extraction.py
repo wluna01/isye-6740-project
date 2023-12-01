@@ -21,6 +21,11 @@ dialogue['num_chars'] = dialogue['dialogue'].apply(lambda text: len(text))
 dialogue['avg_chars_per_word'] = dialogue['num_chars']/dialogue['num_words']
 #round it to two decimal places
 dialogue['avg_chars_per_word'] = dialogue['avg_chars_per_word'].round(2)
+#find the six most commonly occurring speakers for each media
+top_six = dialogue.groupby('media')['speaker'].value_counts().groupby(level=0).nlargest(6).reset_index(level=0, drop=True).reset_index()
+#print(top_six)
+#add true false column for whether or not the speaker is in the top six for their media
+dialogue['is_top_six'] = dialogue.apply(lambda x: x['speaker'] in top_six[top_six['media'] == x['media']]['speaker'].tolist(), axis=1)
 
 dialogue.to_csv('../data/dialogue.csv', index=False)
 
