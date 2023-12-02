@@ -19,8 +19,6 @@ start_time = time.time()
 random_state = 6740
 np.random.seed(random_state)
 
-
-
 #convert the dialogue column to a list
 #dialogue_list = dialogue['dialogue'].tolist()
 #convert the media column to a list
