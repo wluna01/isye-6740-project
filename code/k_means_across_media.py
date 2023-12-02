@@ -1,6 +1,10 @@
 import time
 import pandas as pd
 from collections import defaultdict
+from sklearn.pipeline import make_pipeline
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.decomposition import TruncatedSVD
+import matplotlib.pyplot as plt
 
 print('starting k_means_across_media.py')
 start_time = time.time()
@@ -29,11 +33,28 @@ def prepare_data(df):
             speaker_dict[speaker] = speaker_dialogue
     return speaker_dict
 
+def transform_data(speaker_dictionary):
+    #create a pipeline for tfidf and svd
+    model = make_pipeline(
+        TfidfVectorizer(ngram_range=(1, 3), max_df=0.99),
+        TruncatedSVD(n_components=2)
+    )
+    transformed_data = model.fit_transform(speaker_dictionary.values())
+    return transformed_data
+
+def plot_data(matrix):
+    #create a scatterplot of the data and save as png
+    plt.cla()
+    plt.scatter(matrix[:, 0], matrix[:, 1], cmap='viridis')
+    plt.savefig('../images/k_means_across_media.png')
+
+    return None
+
 print('building dictionary')
 speaker_dialogues = prepare_data(dialogue)
-
-
-
-
+print('performing tfidf and svd')
+transformed_data = transform_data(speaker_dialogues)
+print('plotting data')
+plot_data(transformed_data)
 end_time = time.time()
 print(f"Runtime of the program is {end_time - start_time}")
