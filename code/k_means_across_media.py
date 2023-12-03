@@ -57,16 +57,16 @@ def plot_data(matrix, speakers, media, response_type):
     elif response_type == 'predicted':
         #create a dictionary of colors for each media
         labels = {0: 'red', 1: 'blue', 2: 'green', 3: 'orange', 4: 'purple', 5: 'yellow'}
-        #create a dictionary of media for each color
-        media_labels = {'red': 'The Simpsons', 'blue': 'Friends', 'green': 'Pride and Prejudice', 'orange': 'The Lord of the Rings', 'purple': 'Rick and Morty', 'yellow': 'Downtown Abbey'}
 
     for i, txt in enumerate(speakers):
         plt.scatter(matrix[i, 0], matrix[i, 1], color=labels[media[i]])
-        if txt in ('C. Montgomery Burns', 'Mr Darcy'):
-            plt.annotate(txt, (matrix[:, 0][i], matrix[:, 1][i]))
+        if txt in ('C. Montgomery Burns', 'Mr Darcy', 'Mr Carson'):
+            plt.annotate(txt, (matrix[:, 0][i], matrix[:, 1][i]), fontsize=12, fontweight='bold')
+        else:
+            plt.annotate(txt, (matrix[:, 0][i], matrix[:, 1][i]), fontsize=8, fontweight='normal')
 
-    patches = [mpatches.Patch(color=color, label=label) for color, label in media_labels.items()]
-    plt.legend(handles=patches)
+    #patches = [mpatches.Patch(color=color, label=label) for color, label in media_labels.items()]
+    #plt.legend(handles=patches)
 
     #add a title to the plot
     plt.title('K-Means Clustering on PCA of TF-IDF')
