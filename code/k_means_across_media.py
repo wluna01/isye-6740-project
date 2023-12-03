@@ -57,10 +57,20 @@ def plot_data(matrix, speakers, media, response_type):
     elif response_type == 'predicted':
         #create a dictionary of colors for each media
         labels = {0: 'red', 1: 'blue', 2: 'green', 3: 'orange', 4: 'purple', 5: 'yellow'}
+        #create a dictionary of media for each color
+        media_labels = {'red': 'The Simpsons', 'blue': 'Friends', 'green': 'Pride and Prejudice', 'orange': 'The Lord of the Rings', 'purple': 'Rick and Morty', 'yellow': 'Downtown Abbey'}
 
     for i, txt in enumerate(speakers):
         plt.scatter(matrix[i, 0], matrix[i, 1], color=labels[media[i]])
-        plt.annotate(txt, (matrix[:, 0][i], matrix[:, 1][i]))
+        if txt in ('C. Montgomery Burns', 'Mr Darcy'):
+            plt.annotate(txt, (matrix[:, 0][i], matrix[:, 1][i]))
+
+    patches = [mpatches.Patch(color=color, label=label) for color, label in media_labels.items()]
+    plt.legend(handles=patches)
+
+    #add a title to the plot
+    plt.title('K-Means Clustering on PCA of TF-IDF')
+
     plt.savefig(f'../images/k_means_across_media_{response_type}.png')
     return None
 
@@ -112,13 +122,13 @@ print('plotting data with media labels')
 #plot_data(transformed_data, speaker_df['index'].tolist(), speaker_df['media'].tolist(), 'actual')
 
 print('plotting data with cluster labels')
-#plot_data(transformed_data, speaker_df['index'].tolist(), speaker_df['cluster_label'].tolist(), 'predicted')
+plot_data(transformed_data, speaker_df['index'].tolist(), speaker_df['cluster_label'].tolist(), 'predicted')
 
 print('finding purity score')
-get_purity_score(speaker_df['index'].tolist(), speaker_df['media'].tolist(), speaker_df['cluster_label'].tolist())
+#get_purity_score(speaker_df['index'].tolist(), speaker_df['media'].tolist(), speaker_df['cluster_label'].tolist())
 
 print('plotting final chart with selective annotation')
-plot_data_selective_annotation(speaker_df['index'].tolist(), speaker_df['media'].tolist(), transformed_data)
+#plot_data_selective_annotation(speaker_df['index'].tolist(), speaker_df['media'].tolist(), transformed_data)
 
 end_time = time.time()
 print(f"Runtime of the program is {end_time - start_time}")
