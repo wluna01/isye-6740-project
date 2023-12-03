@@ -4,9 +4,10 @@
 \usepackage[margin=1in]{geometry}
 \usepackage[justification=centering]{caption}
 \usepackage{amsmath,amsfonts,amsthm,fullpage,amssymb,algorithm,color,mathtools,float,hyperref,subcaption,url,graphicx, algorithmic}
+\usepackage[document]{ragged2e}
 \newcommand{\largeimagewidth}{350}
 \newcommand{\mediumimagewidth}{250}
-
+\setlength{\parskip}{1em}
 \begin{document}
 \begin{titlepage}
 \clearpage\thispagestyle{empty}
@@ -23,7 +24,93 @@ Final Project}\\[0.5cm]
 \textbf{Project Title:} Speaker Attribution in Written Dialogue &  \\[10pt]
 \end{tabular} 
 
+\tableofcontents
+\newpage
 
+\section{Problem Statement}
+
+\justifying{Effective dialogue in storytelling requires that each character speak distinctly. The purpose of having multiple characters in a story is to provide a diversity of opinions, perspectives, and backgrounds. If every sentence spoken feels appropriate coming out of the mouth of any character, why have multiple characters at all? How bland would the adventures of Harry, Ron, and Hermione be if all three were equal parts courageous, loyal, and inquisitive, instead of each personality compensating for the other two? Would Pride and Prejudice be effective at exposing class inequalities in Victorian society if every character sounded equally posh?}
+
+\justifying{However, empirically evaluating the distinctness of each character's dialogue in a story is a subjective and challenging process.}
+
+\justifying{This project proposes a methodology to evaluate the distinctness between sets of dialogue in terms of vocabulary and style. Then, through applying this methodology to dialogue in television shows and films, assesses the ability to predict either a) the speaker within a piece of media, where the corpus is a single piece of media, or b) from which media a piece of dialogue originated, where the corpus spans several pieces of media . This distinction will be referred to as $Within-Media$ and $Across-Media$ Classifications going forward.}
+
+\justifying{We will conclude with a discussion of the success of the models at speaker/media classification, how they may be applied to evaluate whether character dialogue has a sufficiently unique voice, and areas of future exploration.}
+
+\section{Data Collection}
+
+The corpus for this project was curated from several data sources that provide dialogue from popular movies, television shows, and books:
+
+- \href{https://www.kaggle.com/datasets/blessondensil294/friends-tv-series-screenplay-script/data?select=S01E01+Monica+Gets+A+Roommate.txt}{Friends}: kaggle.com/datasets/blessondensil294/friends-tv-series-screenplay-script/
+ 
+- \href{https://www.kaggle.com/datasets/pierremegret/dialogue-lines-of-the-simpsons}{The Simpsons}: kaggle.com/datasets/pierremegret/dialogue-lines-of-the-simpsons
+
+- \href{https://www.kaggle.com/datasets/paultimothymooney/lord-of-the-rings-data?select=lotr_scripts.csv}{The Lord of the Rings}: kaggle.com/datasets/paultimothymooney/lord-of-the-rings-data
+
+- \href{https://www.kaggle.com/datasets/andradaolteanu/rickmorty-scripts}{Rick and Morty}: kaggle.com/datasets/andradaolteanu/rickmorty-scripts
+
+- \href{https://scriptline.livejournal.com/71215.html#cutid6}{Pride and Prejudice, Downtown Abbey*}: scriptline.livejournal.com/71215.html
+
+After data cleaning, the outcome is a corpus of the following format:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{} \textbf{media} & \textbf{speaker} & \textbf{dialogue} \\
+        \hline
+        Friends & Phoebe &  "I asked for the news, not the weather." \\
+        Friends & Phoebe &  "You'll see. You'll all see." \\
+        Friends & Joey &  "How you doin'?" \\
+        Pride and Prejudice & Mr. Darcy &  "My affections and wishes have not changed, but..."  \\
+        The Lord of the Rings & Gollum &  "My precious!" \\
+        \hline
+    \end{tabular}
+    \caption{Sample Rows from Dialogue Speaker Corpus}
+    \label{tab:images}
+\end{table}
+
+\section{Methodology}
+\subsection{Feature Engineering}
+\subsubsection{Heuristics}
+There are multiple frameworks for evaluating the uniqueness between two sets of text. Two were chosen to serve as heuristics for this research–Yule's K and Simpson's D.
+
+For Yule's K, a,b,c, and d represent the entries in a 2x2 contingency table:
+\[
+Yule's\ K = \frac{ad - bc}{ad + bc}
+\]
+
+For Simpson's D, $n_i$ is the number of elements of type $i$, $N$ is the total number of elements, and the sum is taken over all types:
+\[
+Simpson's\ D = \frac{\sum_{i=1}^{n} n_i(n_i - 1)}{N(N - 1)}
+\]
+
+Treating all speakers as part of the same media and calculating both heuristics for each:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\largeimagewidth]{images/heuristics.png}
+\caption{Despite Yule's K's separation of characters in The Simpsons and Friends compared to the other media, it does not appear likely that these heuristics would be sufficient for a classification task.}
+\end{figure}
+
+\subsubsection{Stylometry}
+
+\subsubsection{Vocabulary}
+\subsection{Feature Engineering Conclusions}
+
+\section{Results}
+This is the results section.
+
+\section{Conclusion}
+This is the conclusion section.
+
+\section{Future Work}
+
+\section{References}
+
+\section{Appendix}
+\subsubsection{Major Code Sections}
+\textbf{Data Preparation}: \url{github.com/wluna01/isye-6740-project/blob/main/code/data_prep.py}
 
 \begin{figure}[H]
 \centering
@@ -87,66 +174,16 @@ Final Project}\\[0.5cm]
         \begin{itemize}
             \item[] \textbf{Problem Statement}
             
-			Effective dialogue in storytelling requires that each character speak distinctly.
-			The purpose of having multiple characters in a story is to provide a diversity of opinions, perspectives, and backgrounds.
 			
-			If every sentence spoken feels appropriate coming out of the mouth of any character, why have multiple characters at all?
-			How bland would the adventures of Harry, Ron, and Hermione be if all three were equal parts courageous, loyal, and inquisitive, instead of each personality compensating for the other two?
-			Would Pride and Prejudice be effective at exposing class inequalities in Victorian society if every character sounded equally posh?
-
-			However, empirically evaluating the distinctness of each character's dialogue in a story is a subjective and challenging process. 
-
-			This project proposes a methodology to evaluate the distinctness between sets of dialogue in terms of vocabulary, syntax, and style.
-			Then, through applying this methodology to dialogue in television shows and films, assesses the ability to predict either the speaker within a show or which show among the full corpus from which the dialogue originated.
-			This distinction will be referred to as $Within-Media$ and $Across-Media$ Classifications.
-			
-			We will conclude with a discussion of how such a model may be applied to evaluate whether the characters in a dialogue have a sufficiently unique voice. 
 
             \item[] \textbf{Data Sources}
             
-			Fortunately, kaggle.com/datasets has data sets of dialogue with speaker labels from several well-known televison series and films:
-
-			- \href{https://www.kaggle.com/datasets/blessondensil294/friends-tv-series-screenplay-script/data?select=S01E01+Monica+Gets+A+Roommate.txt}{Friends}: /blessondensil294/friends-tv-series-screenplay-script/
-			 
-			- \href{https://www.kaggle.com/datasets/pierremegret/dialogue-lines-of-the-simpsons}{The Simpsons}: /pierremegret/dialogue-lines-of-the-simpsons
-			
-			- \href{https://www.kaggle.com/datasets/paultimothymooney/lord-of-the-rings-data?select=lotr_scripts.csv}{The Lord of the Rings}: /paultimothymooney/lord-of-the-rings-data
-			
-			- \href{https://www.kaggle.com/datasets/andradaolteanu/rickmorty-scripts}{Rick and Morty}: /andradaolteanu/rickmorty-scripts
-
-			- \href{https://scriptline.livejournal.com/71215.html#cutid6}{Pride and Prejudice, Downtown Abbey*}: scriptline.livejournal.com/71215.html
-			 
-			*Requires pre-processing to separate the speaker name from the dialogue spoken.
-
-			The outcome of data pre-processing will be a corpus with the following format:
-			
-			\begin{table}[H]
-				\centering
-				\begin{tabular}{|c|c|c|}
-					\hline
-					\textbf{} \textbf{show} & \textbf{speaker} & \textbf{dialogue} \\
-					\hline
-					Friends & Phoebe &  "I asked for the news, not the weather." \\
-					Friends & Phoebe &  "You'll see. You'll all see." \\
-					Friends & Joey &  "How you doin'?" \\
-					Pride and Prejudice & Mr. Darcy &  "My affections and wishes have not changed, but..."  \\
-					The Lord of the Rings & Gollum &  "My precious!" \\
-					\hline
-				\end{tabular}
-				\caption{Sample Rows from Dialogue Speaker Corpus}
-				\label{tab:images}
-			\end{table}
 
         \item[] \textbf{Methodology}
             
 		Collect representations of dialogue that capture sufficient variability to distinguish speakers:
 		
 		\begin{enumerate}
-			\item Heuristics
-			\begin{itemize}
-				\item For each speaker, calculate Yule's K and Simpson's D.
-				\item Create a scatter plot to show the variability in dialogue patterns both for characters within the same piece of media and those across different pieces of media.
-			\end{itemize}
 		
 			\item Vocabulary
 			\begin{itemize}
