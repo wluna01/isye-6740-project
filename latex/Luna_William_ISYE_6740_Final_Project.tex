@@ -75,23 +75,53 @@ After data cleaning, the outcome is a corpus of the following format:
 \subsubsection{Heuristics}
 There are multiple frameworks for evaluating the uniqueness between two sets of text. Two were chosen to serve as heuristics for this research–Yule's K and Simpson's D.
 
-For Yule's K, a,b,c, and d represent the entries in a 2x2 contingency table:
+\textbf{Yule's K} is a calculation that estimates the variety of vocabulary and in a text^1:
+
+Given:
+
+- $N$ as the total number of words in a text
+
+- $V(N)$ as the number of distinct words
+
+- $V(m, N)$ as the number of words appearing m times in the text
+
+- ${m_{\text{max}}}$ as the largest frequency of a word,
+
+it is defined as:
+
 \[
-Yule's\ K = \frac{ad - bc}{ad + bc}
+S_1 = \sum_{m} mV(m, N), S_2 = \sum_{m} m^2V(m, N)
 \]
 
-For Simpson's D, $n_i$ is the number of elements of type $i$, $N$ is the total number of elements, and the sum is taken over all types:
 \[
-Simpson's\ D = \frac{\sum_{i=1}^{n} n_i(n_i - 1)}{N(N - 1)}
+K = C^2 \frac{S_2 - S_1}{S_1^2} = C \left[ - \frac{1}{N} + \sum_{m=1}^{m_{\text{max}}} V(m, N) \left( \frac{m}{N} \right)^2 \right]
 \]
 
-Treating all speakers as part of the same media and calculating both heuristics for each:
+\textbf{Simpson's D} (formally Simpson's Diversity Index) was created as a measure of diversity within an ecological community^2. However, it can also be applied as a measure of variety in a text corpus.
+
+Given:
+
+- $i$ as a vector of all the distinct words in the corpus
+
+- $n_i$ as the number of times word $i$ occurs in the corpus
+
+- $N$ as the total number of words in the corpus
+
+it is defined as:
+
+\[
+D = \frac{\sum_{i=1}^{n} n_i(n_i - 1)}{N(N - 1)}
+\]
+
+Treating the dialogue of each speaker as its own corpus, we calculate Yule's K and Simpson's D for each, plotting the variation:
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\largeimagewidth]{images/heuristics.png}
-\caption{Despite Yule's K's separation of characters in The Simpsons and Friends compared to the other media, it does not appear likely that these heuristics would be sufficient for a classification task.}
+\caption{Yule's K, a heuristic created specifically to measure text, exposes more variability in dialogue.}
 \end{figure}
+
+Despite Yule's K's separation of characters in The Simpsons and Friends compared to the other media, it does not appear likely that these heuristics would be sufficient for a classification task.
 
 \subsubsection{Stylometry}
 
@@ -111,6 +141,13 @@ This is the conclusion section.
 \section{Appendix}
 \subsubsection{Major Code Sections}
 \textbf{Data Preparation}: \url{github.com/wluna01/isye-6740-project/blob/main/code/data_prep.py}
+
+\textbf{Heuristics}: \url{github.com/wluna01/isye-6740-project/blob/main/code/heuristics.py}
+
+\subsubsection{References}
+[1] \url{direct.mit.edu/coli/article/41/3/481/1519/Computational-Constancy-Measures-of-Texts-Yule-s-K}
+
+[2] \url{statology.org/simpsons-diversity-index/}
 
 \begin{figure}[H]
 \centering
