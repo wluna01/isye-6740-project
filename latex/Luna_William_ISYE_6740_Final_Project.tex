@@ -225,7 +225,39 @@ Where the precise definition follows:
 
 It's important to note that the definition of a ``document'' depends on whether an Across- or Within- Media analysis is being performed. For Across-Media, the full corpus of each show or film represents a document, where for Within-Media, all the dialogue for a specific speaker represents a document. In both cases, the result of performing TF-IDF is a matrix of dimensions $NxM$, where $N$ is the number of documents and $M$ is the number of terms in a document. Since many media have vocabulary that is not used in any other piece of media, we should expect the result to be a sparse matrix.
 
-\subsection{Feature Engineering Conclusions}
+Before training a classifier, K-means Clustering was performed on the top two principal components of the TF-IDF matrix. The resulting scatter plot and low mis-classification rate indicates that vocabulary provides more effective predictor variables than those explored above:
+
+\begin{figure}[H]
+    \centering
+    \caption{PCA Assessment of TF-IDF}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/k_means_across_media_misclassifications.png}
+        \caption{Actual Labels}
+        \label{fig:subfig1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/k_means_across_media_predicted.png}
+        \caption{K Means Clustering (misclassifications in bold)}
+        \label{fig:subfig2}
+    \end{subfigure}
+    \label{fig:main}
+\end{figure} 
+
+Some hypotheses about the misclassifications:
+
+1. Wealthy power plant owner Mr. Burns is misclassified as being in Downtown Abbey (instead of the Simpsons), a show that depicts elite society in Victorian England.
+
+2. Aristocratic (and arrogant) Mr. Darcy is misclassified as being in The Lord of the Rings (instead of Pride and Prejudice) for having a similar vocabulary to the wizard Gandalf.
+
+3. Mr. Carson is misclassified as being part of Pride and Prejudice (instead of Downtown Abbey), for presumably speaking more formally by virtue of being the head butler.
+
+\subsection{Classification}
+
+The TF-IDF Matrix was fed into a Bayes Classifier.
+
 
 \section{Results}
 This is the results section.
