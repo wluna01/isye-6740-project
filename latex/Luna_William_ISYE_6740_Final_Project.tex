@@ -51,7 +51,7 @@ The corpus for this project was curated from several data sources that provide d
 
 - \href{https://scriptline.livejournal.com/71215.html#cutid6}{Pride and Prejudice, Downtown Abbey*}: scriptline.livejournal.com/71215.html
 
-After data cleaning, the outcome is a corpus of the following format:
+After data cleaning, the outcome is a corpus of the following format. In order to make visualizations easier to interpret, and remove characters with too little data, the dialogue from only the six most frequently occurring characters from each media are used:
 
 \begin{table}[H]
     \centering
@@ -121,9 +121,74 @@ Treating the dialogue of each speaker as its own corpus, we calculate Yule's K a
 \caption{Yule's K, a heuristic created specifically to measure text, exposes more variability in dialogue.}
 \end{figure}
 
-Despite Yule's K's separation of characters in The Simpsons and Friends compared to the other media, it does not appear likely that these heuristics would be sufficient for a classification task.
+Despite Yule's K's separation of characters in The Simpsons and Friends compared to the other media, it does not appear likely that these heuristics would be sufficient classifying from which piece of media a speaker originated.
+
+However, when comparing speakers within the same media, simple patterns can emerge. In the charts below, characters co-locate on the scatterplot based on their function in the story. Frodo and Sam spend much of the Lord of the Rings traveling together, as do Merry and Pippin. Rick and Morty are the protagonists of the eponymous show, while Beth, Jerry, and Summer are the supporting cast:
+
+\begin{figure}[H]
+    \centering
+    \caption{Selected Within-Media Plots}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/The Lord of the Rings_heuristics.png}
+        \caption{The Lord of the Rings}
+        \label{fig:subfig1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/Rick and Morty_heuristics.png}
+        \caption{Rick and Morty}
+        \label{fig:subfig2}
+    \end{subfigure}
+    \label{fig:main}
+\end{figure} 
 
 \subsubsection{Stylometry}
+
+\begin{figure}[H]
+    \centering
+    \caption{Within- and Across- Media Sentence Length Distributions}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/The Lord of the Rings_sentence_length.png}
+        \caption{The Lord of the Rings}
+        \label{fig:subfig1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/overall_sentence_length.png}
+        \caption{Overall}
+        \label{fig:subfig2}
+    \end{subfigure}
+    \label{fig:main}
+\end{figure} 
+
+\begin{figure}[H]
+    \centering
+    \caption{Selected KDE Plots}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/3d_kde_test_0.png}
+        \caption{Pride and Prejudice}
+        \label{fig:subfig1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/3d_kde_test_1.png}
+        \caption{Friends}
+        \label{fig:subfig2}
+    \end{subfigure}
+    \label{fig:main}
+\end{figure} 
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\largeimagewidth]{images/3d_kde_test_final.png}
+\caption{Media with more sophisticated dialogue (Pride and Prejudice, Downtown Abbey) have wider word- and sentence-length distributions than American Sitcoms (The Simpsons, Friends)}
+\end{figure}
 
 \subsubsection{Vocabulary}
 \subsection{Feature Engineering Conclusions}
