@@ -256,8 +256,25 @@ Some hypotheses about the misclassifications:
 
 \subsection{Classification}
 
-The TF-IDF Matrix was fed into a Bayes Classifier.
+A Naive Bayes Classifier was chosen because of the model's efficient training on sparse matrices, assumed independence between features, and a track record of performing well on NLP tasks^4.
 
+It became apparent that it was necessary to tune the model's hyper parameters.
+
+1. Use over-sampling to balance the dataset, so the classifier does not bias against an under-represented media or speaker in the corpus.
+
+2. Extended the n-gram range from one to three to capture short expressions and catch-phrases in addition to individual words.
+
+3. Lowered the maximum document frequency from 1 to 0.99, removing the noise of any word or phrase that is present in every speaker's vocabulary.
+
+The final model:
+
+\begin{verbatim}
+model = make_pipeline(
+    TfidfVectorizer(ngram_range=(1, 3), max_df=0.99),
+    SMOTE(),
+    MultinomialNB()
+)
+\end{verbatim}
 
 \section{Results}
 This is the results section.
@@ -285,6 +302,8 @@ This is the conclusion section.
 [2] \url{statology.org/simpsons-diversity-index/}
 
 [3] \url{https://www.jstor.org/stable/30204514}
+
+[4] \url{web.archive.org/web/20180604105217id_/http://onlinepresent.org/proceedings/vol111_2015/50.pdf}
 
 BREAKKKKKKK
 
