@@ -29,7 +29,7 @@ Final Project}\\[0.5cm]
 
 \section{Problem Statement}
 
-\justifying{Effective dialogue in storytelling requires that each character speak distinctly. The purpose of having multiple characters in a story is to provide a diversity of opinions, perspectives, and backgrounds. If every sentence spoken feels appropriate coming out of the mouth of any character, why have multiple characters at all? How bland would the adventures of Harry, Ron, and Hermione be if all three were equal parts courageous, loyal, and inquisitive, instead of each personality compensating for the other two? Would Pride and Prejudice be effective at exposing class inequalities in Victorian society if every character sounded equally posh?}
+\justifying{Effective dialogue in storytelling requires that each character speak distinctly. The purpose of having multiple characters in a story is to provide a diversity of opinions, perspectives, and backgrounds. If every sentence spoken feels appropriate coming out of the mouth of any character, why have multiple characters at all? How bland would the adventures of Harry, Ron, and Hermione be if all three were equal parts courageous, loyal, and inquisitive, instead of each personality compensating for the other two? Would \textit{Pride and Prejudice} be effective at exposing class inequalities in Victorian society if every character sounded equally posh?}
 
 \justifying{However, empirically evaluating the distinctness of each character's dialogue in a story is a subjective and challenging process.}
 
@@ -121,9 +121,9 @@ Treating the dialogue of each speaker as its own corpus, we calculate Yule's K a
 \caption{Yule's K, a heuristic created specifically to measure text, exposes more variability in dialogue.}
 \end{figure}
 
-Despite Yule's K's separation of characters in The Simpsons and Friends compared to the other media, it does not appear likely that these heuristics would be sufficient classifying from which piece of media a speaker originated.
+Despite Yule's K's separation of characters in \textit{The Simpsons} and \textit{Friends} compared to the other media, it does not appear likely that these heuristics would be sufficient classifying from which piece of media a speaker originated.
 
-However, when comparing speakers within the same media, simple patterns can emerge. In the charts below, characters co-locate on the scatterplot based on their function in the story. Frodo and Sam spend much of the Lord of the Rings traveling together, as do Merry and Pippin. Rick and Morty are the protagonists of the eponymous show, while Beth, Jerry, and Summer are the supporting cast:
+However, when comparing speakers within the same media, simple patterns can emerge. In the charts below, characters co-locate on the scatter plot based on their function in the story. Frodo and Sam spend much of \textit{The Lord of the Rings} traveling together, as do Merry and Pippin. Rick and Morty are the protagonists of the eponymous show, while Beth, Jerry, and Summer are the supporting cast:
 
 \begin{figure}[H]
     \centering
@@ -152,7 +152,7 @@ Stylometry is a term I was not aware of before starting this project. While it's
 
 To prepare the data for this section, all dialogue for each speaker was converted into a distributions of sentence and word length. In other words, how many words did a speaker use in each sentence, and how many characters did they use in each word?
 
-The Lord of the Rings is shown here as an illustrative example of all the within-media plots. Most look similar, where despite the fact that one speaker may have a unique distribution (Gandalf below), the majority of the characters' are extremely similar.
+\textit{The Lord of the Rings} is shown here as an illustrative example of all the within-media plots. Most look similar, where despite the fact that one speaker may have a unique distribution (Gandalf below), the majority of the characters' are extremely similar.
 
 However, as we see in the chart on the right., the variance of the distributions are greater across-media:
 
@@ -248,11 +248,11 @@ Before training a classifier, K-means Clustering was performed on the top two pr
 
 Some hypotheses about the misclassifications:
 
-1. Wealthy power plant owner Mr. Burns is misclassified as being in Downtown Abbey (instead of the Simpsons), a show that depicts elite society in Victorian England.
+1. Wealthy power plant owner Mr. Burns is misclassified as being in \textit{Downtown Abbey} (instead of \textit{The Simpsons}), a show that depicts elite society in Victorian England.
 
-2. Aristocratic (and arrogant) Mr. Darcy is misclassified as being in The Lord of the Rings (instead of Pride and Prejudice) for having a similar vocabulary to the wizard Gandalf.
+2. Aristocratic (and arrogant) Mr. Darcy is misclassified as being in \textit{The Lord of the Rings} (instead of \textit{Pride and Prejudice}) for having a similar vocabulary to the wizard Gandalf.
 
-3. Mr. Carson is misclassified as being part of Pride and Prejudice (instead of Downtown Abbey), for presumably speaking more formally by virtue of being the head butler.
+3. Mr. Carson is misclassified as being part of \textit{Pride and Prejudice} (instead of \textit{Downtown Abbey}), for presumably speaking more formally by virtue of being the head butler.
 
 \subsection{Classification}
 
@@ -277,184 +277,68 @@ model = make_pipeline(
 \end{verbatim}
 
 \section{Results}
-This is the results section.
+
+\subsection{Classifying Dialogue}
+\subsubsection{Within Media}
+\subsubsection{Across Media}
+
+\subsection{Assessing Speaker Variability}
+While building a classifier to predict the speaker of a line of dialogue is the technical culmination of this project, it's only auxiliary for addressing the original motivation of measuring speaker distinctness.
+
+Returning to the results of taking the top principal components from each speaker's TF-IDF matrix (Figure 6), we can glean a number of observations that we might pass on to a head writer.
+
+\begin{enumerate}
+\item Characters in \textit{Friends} use highly similar vocabulary. The show might be more endearing if more terms specific to each character were more common.
+\item Characters in \textit{The Simpsons} have distinct vocabulary, but clusters emerge around gender lines–Bart and Homer are close together, as are Lisa and Marge. 
+\end{enumerate}
+
 
 \section{Conclusion}
 This is the conclusion section.
 
 \section{Future Work}
+\subsection{Model Improvements}
 
-\section{References}
+\begin{enumerate}
+\item Add dimensionality reduction to the model to see if categorization based the top N components improves classification rate.
+\item During data pre-processing, add additional speaker-level features such as role (gender, role, education level) and see how well the classifier performs at identifying these broader categories instead of the actual speaker.
+\item Use different statistical models as classifiers that are well-suited for prediction of a categorical variable (Support Vector Machines, Logistic Regression, Random Forest, etc.) and compare to the performance of the Naive Bayes Model.
+\item During data pre-processing, add additional speaker-level features such as role (gender, role, education level) and see how well the classifier performs at identifying these broader categories instead of the actual speaker.
+\item Add stylometry as an additional model, making the model's final prediction the response with the highest weighted average between the existing model and the stylometry one. For example, it's possible that the KDE is better at predicting the subset of dialogue lines that contain long sentences and/or words, where vocabulary is better at classifying dialogue with stylometric features in the center of the distribution.
+\end{enumerate}
+
+\subsection{Model Applications}
+
+\begin{enumerate}
+\item Improve the interpretability of the clustering by exposing which vocabulary words contribute to the proximity between two speakers. Which terms do Summer and Beth share that Morty and Jerry do not? The availability of this list would expose an unconscious use of gendered language for the show writers to address.
+\item Retrieve which words are commonly used by all the characters in a single piece of media but have a low presence in English overall by comparing to the word's frequency distribution in a larger English corpus. This would reveal whether the writer's quirks of vocabulary are seeping into their writing without taking the opportunity to more realistically attribute that quirk to a single character's speech.
+\item Expand the dataset so that any piece of media can be compared to a benchmark for its type. While Figure 6 implies that everyone in \textit{Friends} talks the same, it's possible that \textit{Friends} actually has more a more divers speaker vocabulary than most other American sitcoms. The inverse may also be true, that while the characters in \textit{Pride and Prejudice} are dispersed on the chart, they may pale in comparison to other great works of literature like \textit{Anna Karenina} or \textit{A Tale of Two Cities}.
+\end{enumerate}
+
+\begin{enumerate}
+
+\end{enumerate}
 
 \section{Appendix}
-\subsubsection{Major Code Sections}
-\textbf{Data Preparation}: \url{github.com/wluna01/isye-6740-project/blob/main/code/data_prep.py}
+\subsubsection{Select Code Sections}
 
-\textbf{Heuristics}: \url{github.com/wluna01/isye-6740-project/blob/main/code/heuristics.py}
-
-\textbf{Stylometry Feature Extraction}: \url{github.com/wluna01/isye-6740-project/blob/main/code/data_feature_extraction.py}
-
-\textbf{Stylometry Classifier}: \url{github.com/wluna01/isye-6740-project/blob/main/code/stylometry_classifier.py}
+\begin{enumerate}
+\item \textbf{Data Preparation}: \url{github.com/wluna01/isye-6740-project/blob/main/code/data_prep.py}
+\item \textbf{Heuristics}: \url{github.com/wluna01/isye-6740-project/blob/main/code/heuristics.py}
+\item \textbf{Stylometry Feature Extraction}: \url{github.com/wluna01/isye-6740-project/blob/main/code/data_feature_extraction.py}
+\item \textbf{Stylometry Classifier}: \url{github.com/wluna01/isye-6740-project/blob/main/code/stylometry_classifier.py}
+\item \textbf{TF-IDF Scatter Plot} \url{github.com/wluna01/isye-6740-project/blob/main/code/tf_idf_across_media.py}
+\item \textbf{Naive Bayes Classifier}:: \url{github.com/wluna01/isye-6740-project/blob/main/code/nb_classifier_within_media.py}
+\end{enumerate}
 
 \subsubsection{References}
-[1] \url{direct.mit.edu/coli/article/41/3/481/1519/Computational-Constancy-Measures-of-Texts-Yule-s-K}
 
-[2] \url{statology.org/simpsons-diversity-index/}
-
-[3] \url{https://www.jstor.org/stable/30204514}
-
-[4] \url{web.archive.org/web/20180604105217id_/http://onlinepresent.org/proceedings/vol111_2015/50.pdf}
-
-BREAKKKKKKK
-
-
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\largeimagewidth]{images/heuristics.png}
-\caption{Speakers within a piece of media tend to cluster together.}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\mediumimagewidth]{images/Downtown Abbey_heuristics.png}
-\caption{Note that the three servants are clustered in the center while each member of the nobility occupies a distinct place in the plot.}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\mediumimagewidth]{images/The Lord of the Rings_heuristics.png}
-\caption{This scatter plot implies that Frodo and Sam have similar speech patterns, as do Pippin and Mary, distinct from Gandalf and Aragorn.}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\mediumimagewidth]{images/The Simpsons_heuristics.png}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\mediumimagewidth]{images/Pride and Prejudice_heuristics.png}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\mediumimagewidth]{images/Friends_heuristics.png}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\mediumimagewidth]{images/Rick and Morty_heuristics.png}
-\end{figure}
-
-
-    \begin{figure}[H]
-        \centering
-        \caption{Decision Stumps of AdaBoost (Misclassifications of each stump highlighted)}
-        \begin{subfigure}[b]{0.45\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{images/Friends_heuristics.png}
-            \caption{T = 1}
-            \label{fig:subfig1}
-        \end{subfigure}
-        \hfill
-        \begin{subfigure}[b]{0.45\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{images/Downtown Abbey_heuristics.png}
-            \caption{T = 2}
-            \label{fig:subfig2}
-        \end{subfigure}
-        \label{fig:main}
-    \end{figure} 
-        { \Large \bfseries Project Proposal}
-
-        \begin{itemize}
-            \item[] \textbf{Problem Statement}
-            
-			
-
-            \item[] \textbf{Data Sources}
-            
-
-        \item[] \textbf{Methodology}
-            
-		Collect representations of dialogue that capture sufficient variability to distinguish speakers:
-		
-		\begin{enumerate}
-		
-			\item Vocabulary
-			\begin{itemize}
-				\item For each speaker, calculate the Term Frequency-Inverse Document Frequency (TF-IDF), where Document Frequency is based on the corpus of all dialogue of the show or film the character is present in, and store as a matrix.
-				\item Include bigrams and trigrams in the matrix to capture use of multi-word expressions and catchphrases.
-				\item Take the Cosine Similarity between each speaker vector with every other speaker vector in the same piece of media, plotting as a heatmap.
-			\end{itemize}
-		
-			\item Stylometry
-			\begin{itemize}
-				\item For each speaker, calculate their distribution of word length and sentence length of all dialogue spoken.
-				\begin{itemize}
-					\item How to best represent the distribution will be a result of analyzing the distributions, although most dialogue has a skewed unimodal distribution (lots of short words and sentences, a few longer ones) that can be sufficiently captured by mean, standard deviation, and skewness.
-				\end{itemize}
-				\item For each speaker, calculate the frequency of their use of function words and common punctuation, again plotting Cosine Similarity as a heatmap.
-			\end{itemize}
-		
-			\item Visualize
-			\begin{itemize}
-				\item Create a scatter plot showing the Cosine Similarity of the Vocabulary Matrix on one axis and stylometry on the other.
-				\begin{itemize}
-					\item Generate Heatmaps that use different measures of distance (Manhattan, Euclidean, etc.) and consider pros and cons of adopting them as alternatives.
-				\end{itemize}
-			\end{itemize}
-		\end{enumerate}
-	
-		\item[] \textbf{Evaluation}
-
-		Within-Media
-
-		\begin{enumerate}
-			\item For each media (i.e. movie or show), train a Naive Bayes classifier on the Vocabulary and Stylometry matrices.
-			\item Interpret the results. Which media has dialogue that the Bayesian Classifier can most effectively predict?
-		\end{enumerate}
-
-		Across-Media
-
-		\begin{enumerate}
-			\item Perform PCA on the TF-IDF vectors that represent each speaker with each media.
-			\item Perform K-means Clustering on the top 2-3 components of the resulting dataset, where $k$ equals the number of distinct tv shows and movies. Calculate the purity score where ``each cluster is assigned to the class which is most frequent in the cluster'' (taken verbatim from HW1).
-			\item Interpret the results. Which clusters have the highest and lowest purity scores?
-		\end{enumerate}
-		
-
-\item[] \textbf{Applications of Coursework}
-
-- \textbf{Naive Bayes} to train a classifier to predict a speaker within a specific piece of media
-
-- \textbf{Minkowski Distances} (Euclidean, Manhattan, etc)
-
-- \textbf{Principal Component Analysis} to prepare TF-IDF vectors for clustering
-
-- \textbf{K-Means Clustering} to classify speakers of dialogue across media
-
-\item[] \textbf{Background}
-
-Can, F., and Patton, J. M. (2004). Change of Writing Style with Time. Computers and the Humanities, 38(1), 61 82. http://www.jstor.org/stable/30204925
-
-Kumiko Tanaka-Ishii, Shunsuke Aihara; Computational Constancy Measures of Texts—Yule's K and Rényi's Entropy. Computational Linguistics 2015; 41 (3): 481 502. Link.
-
-Simpson, E. Measurement of Diversity. Nature 163, 688 (1949). Link. 
-
-Spärck Jones, K. (2021). A statistical interpretation of term specificity and its application in retrieval. J. Documentation, 60, 493-502.
-
-Tweedie, F. J., Singh, S., and Holmes, D. I. (1996). Neural Network Applications in Stylometry: The “Federalist Papers.” Computers and the Humanities, 30(1), 1 10. http://www.jstor.org/stable/30204514
-   
-
-    \end{itemize}
-	
-	\pagebreak
+\begin{enumerate}
+\item \url{direct.mit.edu/coli/article/41/3/481/1519/Computational-Constancy-Measures-of-Texts-Yule-s-K}
+\item \url{statology.org/simpsons-diversity-index/}
+\item \url{jstor.org/stable/30204514}
+\item \url{web.archive.org/web/20180604105217id_/http://onlinepresent.org/proceedings/vol111_2015/50.pdf}
+\end{enumerate}
 
 \end{titlepage}
-
-
 \end{document}
-
