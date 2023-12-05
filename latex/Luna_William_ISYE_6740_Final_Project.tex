@@ -33,7 +33,7 @@ Final Project}\\[0.5cm]
 
 \justifying{However, empirically evaluating the distinctness of each character's dialogue in a story is a subjective and challenging process.}
 
-\justifying{This project proposes a methodology to evaluate the distinctness between sets of dialogue in terms of vocabulary and style. Then, through applying this methodology to dialogue in television shows and films, assesses the ability to predict either a) the speaker within a piece of media, where the corpus is a single piece of media, or b) from which media a piece of dialogue originated, where the corpus spans several pieces of media . This distinction will be referred to as $Within-Media$ and $Across-Media$ Classifications going forward.}
+\justifying{This project proposes a methodology to evaluate the distinctness between sets of dialogue in terms of vocabulary and style. Then, through applying this methodology to dialogue in television shows and films, assesses the ability to predict either a) the speaker within a piece of media, where the corpus is a single piece of media, or b) from which piece of media a line of dialogue originated, where the corpus spans several pieces of media . This distinction will be referred to as $Within-Media$ and $Across-Media$ Classifications going forward.}
 
 \justifying{We will conclude with a discussion of the success of the models at speaker/media classification, how they may be applied to evaluate whether character dialogue has a sufficiently unique voice, and areas of future exploration.}
 
@@ -63,7 +63,7 @@ After data cleaning, the outcome is a corpus of the following format. In order t
         Friends & Phoebe &  ``You'll see. You'll all see.'' \\
         Friends & Joey &  ``How you doin'?'' \\
         Pride and Prejudice & Mr. Darcy &  ``My affections and wishes have not changed, but...''  \\
-        The Lord of the Rings & Gollum &  ``My precious!'' \\
+        The Lord of the Rings & Gandalf &  ``Fly you fools!'' \\
         \hline
     \end{tabular}
     \caption{Sample Rows from Dialogue Speaker Corpus}
@@ -75,7 +75,7 @@ After data cleaning, the outcome is a corpus of the following format. In order t
 \subsubsection{Heuristics}
 There are multiple frameworks for evaluating the uniqueness between two sets of text. Two were chosen to serve as heuristics for this research–Yule's K and Simpson's D.
 
-\textbf{Yule's K} is a calculation that estimates the variety of vocabulary and in a text^1:
+\textbf{Yule's K} is a calculation that estimates the variety of vocabulary in a text^1:
 
 Given:
 
@@ -97,11 +97,13 @@ S_1 = \sum_{m} mV(m, N), S_2 = \sum_{m} m^2V(m, N)
 K = C^2 \frac{S_2 - S_1}{S_1^2} = C \left[ - \frac{1}{N} + \sum_{m=1}^{m_{\text{max}}} V(m, N) \left( \frac{m}{N} \right)^2 \right]
 \]
 
-\textbf{Simpson's D} (formally Simpson's Diversity Index) was created as a measure of diversity within an ecological community^2. However, it can also be applied as a measure of variety in a text corpus.
+\textbf{Simpson's D} (formally Simpson's Diversity Index) was created as a measure of diversity within an ecological community^2. 
 
-Given:
+However, it can also be applied as a measure of variety in a text corpus. Given:
 
-- $i$ as a vector of all the distinct words in the corpus
+- $n$ as a vector that represents all the distinct words in the corpus
+
+- $i$ as a particular word in the corpus
 
 - $n_i$ as the number of times word $i$ occurs in the corpus
 
@@ -144,17 +146,17 @@ However, when comparing speakers within the same media, simple patterns can emer
     \label{fig:main}
 \end{figure} 
 
-One important takeaway from this heuristic analysis is that for the media in the corpus, the differences in dialogue across each media (TV show, film, book) are greater than the differences of dialogue between each character within the same piece of media.
+One important takeaway from this heuristic analysis is that for the media in the corpus, the differences in dialogue \textit{across} each media (TV show, film, book) are greater than the differences of dialogue between each character \textit{within} the same piece of media.
 
 \subsubsection{Stylometry}
 
-Stylometry is a term I was not aware of before starting this project. While it's current technical definition is "the statistical analysis of variations in literary style," for this section, its easier to use Augustus de Morgen's original 1851 definition as "if one text 'deals in longer words' than another"^3.
+While Stylometry's technical definition is ``the statistical analysis of variations in literary style,'' for this section, it is better explained by Augustus de Morgen's original 1851 definition of ``if one text `deals in longer words' than another''^3.
 
-To prepare the data for this section, all dialogue for each speaker was converted into a distributions of sentence and word length. In other words, how many words did a speaker use in each sentence, and how many characters did they use in each word?
+To prepare the data for this section, all dialogue for each speaker was converted into frequency distributions of sentence and word length. In other words, how many words did a speaker use in each sentence, and how many characters did they use in each word?
 
-\textit{The Lord of the Rings} is shown here as an illustrative example of all the within-media plots. Most look similar, where despite the fact that one speaker may have a unique distribution (Gandalf below), the majority of the characters' are extremely similar.
+\textit{The Lord of the Rings} is shown here as an illustrative example of all the within-media plots. Most look similar, where despite the fact that one speaker may have a unique distribution (Gandalf below), the majority of the characters' distributions are extremely similar.
 
-However, as we see in the chart on the right., the variance of the distributions are greater across-media:
+However, as we see in the chart on the right, the variance of the distributions are greater across-media:
 
 \begin{figure}[H]
     \centering
@@ -176,12 +178,11 @@ However, as we see in the chart on the right., the variance of the distributions
 \end{figure} 
 
 Plotting both within- and across-media Kernel Density Estimators (KDEs) $f(x) = \frac{1}{nh} \sum_{i=1}^{n} K\left(\frac{x - x_i}{h}\right)$,
-
-It is unclear whether the variation in sentence and word length is sufficient to provide predictive features to a classifier:
+it is unclear whether the variation in sentence and word length is sufficient to provide predictive features to a classifier:
 
 \begin{figure}[H]
     \centering
-    \caption{Selected Within-Media KDE Plots}
+    \caption{Selected KDE Plots}
     \begin{subfigure}[b]{0.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/3d_kde_test_0.png}
@@ -201,14 +202,14 @@ It is unclear whether the variation in sentence and word length is sufficient to
 \begin{figure}[H]
 \centering
 \includegraphics[width=\largeimagewidth]{images/3d_kde_test_final.png}
-\caption{Across-media KDE Plots. Media with more sophisticated dialogue (Pride and Prejudice, Downtown Abbey) have wider word- and sentence-length distributions than American Sitcoms (The Simpsons, Friends).}
+\caption{Across-media KDE Plots. Media with more sophisticated dialogue (\textit{Pride and Prejudice}, \textit{Downtown Abbey}) have wider word- and sentence-length distributions than American Sitcoms (\textit{The Simpsons}, \textit{Friends}).}
 \end{figure}
 
-To assess the potential value of incorporating stylometry into a classifier model, A KDE classifier was created to predict in which media a given line of dialogue was spoken. Given that the accuracy of the model is near-random (approx. 15 percent), and the evidence that dialogue variation is greater across media than within media, I concluded that stylometry, at least at this level of rudimentary implementation, was unlikely to contribute to an effective classifier.
+To assess the potential value of incorporating stylometry into a classifier model, A KDE classifier was created to predict in which media a given line of dialogue was spoken. Given that the accuracy of the model was near-random (approx. 15 percent), and the evidence that dialogue variation is greater across media than within media, I concluded that stylometry, at least at this level of rudimentary implementation, was unlikely to contribute to an effective classifier.
 
 \subsubsection{Vocabulary}
 
-Vocabulary is more commonly used to train text classifiers than stylometry. In NLP, a common ways of creating features from text vocabulary is \textbf{Term Frequency-Inverse Document Frequency}.
+Vocabulary is more commonly used to train text classifiers than stylometry or the heuristics explored above. In Natural Language Processing, a common way of creating features from text vocabulary is \textbf{Term Frequency-Inverse Document Frequency}.
 
 My own simple, imprecise definition is: ``how much more or less does this word occur in this text sample compared to how often it occurs in a larger corpora?''
 
@@ -225,7 +226,7 @@ Where the precise definition follows:
 
 It's important to note that the definition of a ``document'' depends on whether an Across- or Within- Media analysis is being performed. For Across-Media, the full corpus of each show or film represents a document, where for Within-Media, all the dialogue for a specific speaker represents a document. In both cases, the result of performing TF-IDF is a matrix of dimensions $NxM$, where $N$ is the number of documents and $M$ is the number of terms in a document. Since many media have vocabulary that is not used in any other piece of media, we should expect the result to be a sparse matrix.
 
-Before training a classifier, K-means Clustering was performed on the top two principal components of the TF-IDF matrix. The resulting scatter plot and low mis-classification rate indicates that vocabulary provides more effective predictor variables than those explored above:
+Before training a classifier, K-means Clustering was performed on the top two principal components of the TF-IDF matrix, to create a scatter plot that provides a visual intuition for the efficacy of this method. The resulting low mis-classification rate indicates that vocabulary provides more effective predictor variables than those explored earlier:
 
 \begin{figure}[H]
     \centering
@@ -246,7 +247,7 @@ Before training a classifier, K-means Clustering was performed on the top two pr
     \label{fig:main}
 \end{figure} 
 
-Some hypotheses about the misclassifications:
+Some hypotheses about the misclassifications highlighted on the right:
 
 1. Wealthy power plant owner Mr. Burns is misclassified as being in \textit{Downtown Abbey} (instead of \textit{The Simpsons}), a show that depicts elite society in Victorian England.
 
@@ -254,17 +255,23 @@ Some hypotheses about the misclassifications:
 
 3. Mr. Carson is misclassified as being part of \textit{Pride and Prejudice} (instead of \textit{Downtown Abbey}), for presumably speaking more formally by virtue of being the head butler.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\largeimagewidth]{images/tfidf_across_document_heatmap.png}
+\caption{When all dialogue for each media is compared to each other's in aggregate, it's reassuring that the cosine similarity between any two TF-IDF vectors is extremely low.}
+\end{figure}
+
 \subsection{Classification}
 
 A Naive Bayes Classifier was chosen because of the model's efficient training on sparse matrices, assumed independence between features, and a track record of performing well on NLP tasks^4.
 
-It became apparent that it was necessary to tune the model's hyper parameters.
+After seeing the initial Naive Bayes classifier perform poorly, it became apparent that it was necessary to tune the model's hyper parameters. The following changes were made:
 
-1. Use over-sampling to balance the dataset, so the classifier does not bias against an under-represented media or speaker in the corpus.
+1. Used random over-sampling to balance the dataset, so the classifier does not bias against an under-represented media or speaker in the corpus.
 
 2. Extended the n-gram range from one to three to capture short expressions and catch-phrases in addition to individual words.
 
-3. Lowered the maximum document frequency from 1 to 0.99, removing the noise of any word or phrase that is present in every speaker's vocabulary.
+3. Lowered the maximum document frequency from 1 to 0.99, removing the noise of any word or phrase that is present in every speaker's dialogue.
 
 The final model:
 
@@ -279,6 +286,9 @@ model = make_pipeline(
 \section{Results}
 
 \subsection{Classifying Dialogue}
+
+Model performance was evaluated by taking the average prediction rate across all speakers or media. This was to penalize any model that classified one show or speaker at a very high rate at the cost of classifying other categories at a low rate.
+
 \subsubsection{Within Media}
 \subsubsection{Across Media}
 
@@ -288,7 +298,7 @@ While building a classifier to predict the speaker of a line of dialogue is the 
 Returning to the results of taking the top principal components from each speaker's TF-IDF matrix (Figure 6), we can glean a number of observations that we might pass on to a head writer.
 
 \begin{enumerate}
-\item Characters in \textit{Friends} use highly similar vocabulary. The show might be more endearing if more terms specific to each character were more common.
+\item Characters in \textit{Friends} use highly similar vocabulary. The show might be more endearing if more terms specific to each character were common.
 \item Characters in \textit{The Simpsons} have distinct vocabulary, but clusters emerge around gender lines–Bart and Homer are close together, as are Lisa and Marge. 
 \end{enumerate}
 
@@ -312,7 +322,7 @@ This is the conclusion section.
 \begin{enumerate}
 \item Improve the interpretability of the clustering by exposing which vocabulary words contribute to the proximity between two speakers. Which terms do Summer and Beth share that Morty and Jerry do not? The availability of this list would expose an unconscious use of gendered language for the show writers to address.
 \item Retrieve which words are commonly used by all the characters in a single piece of media but have a low presence in English overall by comparing to the word's frequency distribution in a larger English corpus. This would reveal whether the writer's quirks of vocabulary are seeping into their writing without taking the opportunity to more realistically attribute that quirk to a single character's speech.
-\item Expand the dataset so that any piece of media can be compared to a benchmark for its type. While Figure 6 implies that everyone in \textit{Friends} talks the same, it's possible that \textit{Friends} actually has more a more divers speaker vocabulary than most other American sitcoms. The inverse may also be true, that while the characters in \textit{Pride and Prejudice} are dispersed on the chart, they may pale in comparison to other great works of literature like \textit{Anna Karenina} or \textit{A Tale of Two Cities}.
+\item Expand the dataset so that any piece of media can be compared to a benchmark for its type. While Figure 6 implies that everyone in \textit{Friends} talks the same, it's possible that \textit{Friends} actually has a more diverse speaker vocabulary than most other American sitcoms. The inverse may also be true, that while the characters in \textit{Pride and Prejudice} are dispersed on the chart, they may pale in comparison to other great works of literature like \textit{Anna Karenina} or \textit{A Tale of Two Cities}.
 \end{enumerate}
 
 \begin{enumerate}
@@ -324,6 +334,7 @@ This is the conclusion section.
 
 \begin{enumerate}
 \item \textbf{Data Preparation}: \url{github.com/wluna01/isye-6740-project/blob/main/code/data_prep.py}
+\item \textbf{Data Set}: \url{github.com/wluna01/isye-6740-project/blob/main/data/dialogue.csv}
 \item \textbf{Heuristics}: \url{github.com/wluna01/isye-6740-project/blob/main/code/heuristics.py}
 \item \textbf{Stylometry Feature Extraction}: \url{github.com/wluna01/isye-6740-project/blob/main/code/data_feature_extraction.py}
 \item \textbf{Stylometry Classifier}: \url{github.com/wluna01/isye-6740-project/blob/main/code/stylometry_classifier.py}
