@@ -299,8 +299,9 @@ predicted_media = model.predict(X_test)
 
 Model performance was evaluated by taking the average prediction rate across all speakers or media. This was to penalize any model that classified one show or speaker at a very high rate at the cost of classifying other categories at a low rate.
 
-
 \subsubsection{Across Media}
+
+``Given a single line of dialogue from any of the following, with what accuracy did the classifier successfully predict the which media it came from:''
 
 \begin{table}[H]
     \centering
@@ -323,13 +324,15 @@ Model performance was evaluated by taking the average prediction rate across all
          \textbf{Overall} & \textbf{0.6723} \\
         \hline
     \end{tabular}
-    \caption{Caption}
+    \caption{Across-Media Prediction Accuracy}
     \label{tab:my_label}
 \end{table}
 
+The implication of these results is that a higher prediction accuracy for a piece of media means that it has a more distinct style of dialogue, regardless of the speaker, compared to the other media.
 
 \subsubsection{Within Media}
 
+``Given a single line of dialogue from a specific TV show or film series, with what accuracy did the classifier successfully predict who said it:''
 
 \begin{table}[H]
     \centering
@@ -349,7 +352,7 @@ Model performance was evaluated by taking the average prediction rate across all
         \hline
         Summer & 0.2381 \\
         \hline
-        \textbf{Mean Accuracy} & \textbf{0.3627} \\
+        \textbf{Overall} & \textbf{0.3627} \\
         \hline
     \end{tabular}
     \caption{Rick and Morty}
@@ -374,7 +377,7 @@ Model performance was evaluated by taking the average prediction rate across all
         \hline
         Sam & 0.3659 \\
         \hline
-        \textbf{Mean Accuracy} & \textbf{0.3745} \\
+        \textbf{Overall} & \textbf{0.3745} \\
         \hline
     \end{tabular}
     \caption{The Lord of the Rings}
@@ -399,7 +402,7 @@ Model performance was evaluated by taking the average prediction rate across all
         \hline
         Moe Szyslak & 0.4845 \\
         \hline
-        \textbf{Mean Accuracy} & \textbf{0.3969} \\
+        \textbf{Overall} & \textbf{0.3969} \\
         \hline
     \end{tabular}
     \caption{The Simpsons}
@@ -424,7 +427,7 @@ Model performance was evaluated by taking the average prediction rate across all
         \hline
         Ross & 0.2978 \\
         \hline
-        \textbf{Mean Accuracy} & \textbf{0.3245} \\
+        \textbf{Overall} & \textbf{0.3245} \\
         \hline
     \end{tabular}
     \caption{Friends}
@@ -449,7 +452,7 @@ Model performance was evaluated by taking the average prediction rate across all
         \hline
         Mrs Bennet & 0.5306 \\
         \hline
-        \textbf{Mean Accuracy} & \textbf{0.4026} \\
+        \textbf{Overall} & \textbf{0.4026} \\
         \hline
     \end{tabular}
     \caption{Pride and Prejudice}
@@ -474,12 +477,14 @@ Model performance was evaluated by taking the average prediction rate across all
         \hline
         Robert, Earl Of Grantham & 0.2390 \\
         \hline
-        \textbf{Mean Accuracy} & \textbf{0.3001} \\
+        \textbf{Overall} & \textbf{0.3001} \\
         \hline
     \end{tabular}
     \caption{Downtown Abbey}
     \label{tab:downtown_abbey_accuracy}
 \end{table}
+
+The average speaker prediction accuracy across all six pieces of media was \textbf{thirty-six percent}.
 
 \subsection{Assessing Speaker Variability}
 While building a classifier to predict the speaker of a line of dialogue is the technical culmination of this project, it's only auxiliary for addressing the original motivation of measuring speaker distinctness.
@@ -497,11 +502,11 @@ This project explored tools that identify and classify the differences in dialog
 
 After investigating multiple features of the dialogue, speaker vocabulary was determined to be the only feature salient enough to incorporate into a classification model.
 
-With minimal hyper parameter tuning, a simple Naive Bayes Classifier performed well at identifying which media a line of dialogue occurred in (Across-Media) but performed poorly at the more sophisticated task of identifying which character spoke a specific line (Within-Media).
+With minimal hyper parameter tuning, a simple Naive Bayes Classifier performed moderately well (67\%) at identifying which media a line of dialogue occurred in (Across-Media) and performed moderate to poor (36\%) at the more sophisticated task of identifying which character spoke a specific line (Within-Media).
 
-Given that the motivating use case for the project was Within-Media classification, these are disappointing results. The highest priority follow-up is to explore different models and parameters to improve the classification rate.
+Given that the motivating use case for the project was Within-Media classification, these are disappointing results. The highest priority follow-up is to explore different models and parameters to improve the classification rate. Although the unstructured nature of text data may make it difficult to dramatically improve model accuracy.
 
-However, as explored below, the project does surface tools for effective storytellin, independently of the success of the classifier.
+However, as explored below, the project does surface tools for effective storytelling, independently of the success of the classifier.
 
 \section{Future Work}
 \subsection{Model Improvements}
